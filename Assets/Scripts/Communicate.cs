@@ -7,7 +7,7 @@ using System.Text;
 public class Communicate : MonoBehaviour {
 
 	public static string STRINGFROMBOX;
-	public static SerialPort sp = new SerialPort ("COM3", 9600, Parity.None, 8, StopBits.One);
+	public static SerialPort sp = new SerialPort ("COM3", 115200, Parity.None, 8, StopBits.One);
 	private string tString = string.Empty;
 	private byte _terminator = 0x4;
 
@@ -61,6 +61,10 @@ public class Communicate : MonoBehaviour {
 	public static void sendBlue(){
 		sp.Write("b");
 	}
+	public static void sendKnob(){
+	
+	}
+
 
 
 
