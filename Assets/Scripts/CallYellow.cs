@@ -25,7 +25,8 @@ public class CallYellow : MonoBehaviour {
 			YELLOWLIGHT.enabled = true;
 		} else {gameObject.GetComponent<Renderer> ().material.color = Color.white;
 			YELLOWLIGHT.enabled = false;}
-
-		Communicate.sendYellow();
-	}
+		Communicate.sendYellow (YELLOWLEDSTATUS);
+		}
+		
 }
+

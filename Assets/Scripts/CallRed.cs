@@ -29,7 +29,7 @@ public class CallRed : MonoBehaviour {
 		} else {gameObject.GetComponent<Renderer> ().material.color = Color.white;
 			REDLIGHT.enabled = false;}
 
-		Communicate.sendRed();
+		Communicate.sendRed(REDLEDSTATUS);
 	 }
 
 

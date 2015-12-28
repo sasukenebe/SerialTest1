@@ -5,19 +5,9 @@ using System.IO.Ports;
 using System.Text;
 
 public class Communicate : MonoBehaviour {
-
-	//public static int ENCODERLEDSTATUS=CallKnob.ENCODERLEDSTATUS;
-	//public static bool REDLEDSTATUS=CallRed.REDLEDSTATUS;
-	//public static bool BLUELEDSTATUS=CallBlue.BLUELEDSTATUS;
-	//public static bool GREENLEDSTATUS=CallGreen.GREENLEDSTATUS;
-	//public static bool YELLOWLEDSTATUS=CallYellow.YELLOWLEDSTATUS;
-	//public static string YELLOWSTRING;
-	//public static string GREENSTRING;
-	//public static string BLUESTRING;
-	//public static string REDSTRING;
-
-
+	
 	//Component KNOB_AND_RING_SCRIPT = KNOB_AND_RING.GetComponent<CallKnob>();
+	private static bool YELLOWLEDSTATUS_COM = CallYellow.YELLOWLEDSTATUS;
 	public static string STRINGFROMBOX;
 	public static SerialPort sp = new SerialPort ("COM3", 115200, Parity.None, 8, StopBits.One);
 	private string tString = string.Empty;
@@ -27,10 +17,13 @@ public class Communicate : MonoBehaviour {
 	void Start () {
 		sp.DtrEnable = true; //if you do not do this, the event handler method of serial receipt will not work
 		sp.ReadTimeout=6;
+		sp.WriteTimeout=6;
 		if (!sp.IsOpen) 
 		{
 			sp.Open ();
 			Debug.Log ("A serial port has been opened");
+			sp.DiscardInBuffer();
+			sp.DiscardOutBuffer();
 
 		}
 
@@ -57,20 +50,50 @@ public class Communicate : MonoBehaviour {
 
 
 
-	public static void sendYellow(){
-		sp.Write("y");
+	public static void sendYellow (bool YELLOWLEDSTATUS)
+	{
+		if (YELLOWLEDSTATUS==true) {
+			sp.Write ("y1");
+			Debug.Log ("YELLOW STATUS 1");
+		} else {
+			if(YELLOWLEDSTATUS==false)
+			sp.Write ("y0");
+			Debug.Log ("YELLOW STATUS 0");
+		}
 	}
 
-	public static void sendGreen(){
-		sp.Write("g");
+	public static void sendGreen(bool GREENLEDSTATUS){
+		if (GREENLEDSTATUS==true) {
+			sp.Write ("g1");
+			Debug.Log ("green STATUS 1");
+		} else {
+			if(GREENLEDSTATUS==false)
+				sp.Write ("g0");
+			Debug.Log ("green STATUS 0");
+		}
 	}
 
-	public static void sendRed(){
-		sp.Write("r");
-	}
+		public static void sendRed(bool REDLEDSTATUS){
+		
+		if (REDLEDSTATUS==true) {
+			sp.Write ("r1");
+			Debug.Log ("red STATUS 1");
+		} else {
+			if(REDLEDSTATUS==false)
+				sp.Write ("r0");
+			Debug.Log ("red STATUS 0");
+		}
+		}
 
-	public static void sendBlue(){
-		sp.Write("b");
+			public static void sendBlue(bool BLUELEDSTATUS){
+		if (BLUELEDSTATUS==true) {
+			sp.Write ("b1");
+			Debug.Log ("blue STATUS 1");
+		} else {
+			if(BLUELEDSTATUS==false)
+				sp.Write ("b0");
+			Debug.Log ("blue STATUS 0");
+		}
 	}
 	public static void sendKnob(){
 		sp.Write ("e");

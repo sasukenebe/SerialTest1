@@ -32,6 +32,6 @@ public class CallGreen : MonoBehaviour {
 		} else {gameObject.GetComponent<Renderer> ().material.color = Color.white;
 		  		GREENLIGHT.enabled = false;}
 
-		Communicate.sendGreen();
+		Communicate.sendGreen(GREENLEDSTATUS);
 	 }
 }

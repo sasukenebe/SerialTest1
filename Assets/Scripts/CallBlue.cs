@@ -29,6 +29,6 @@ public class CallBlue : MonoBehaviour {
 		} else {gameObject.GetComponent<Renderer> ().material.color = Color.white;
 			BLUELIGHT.enabled = false;}
 
-		Communicate.sendBlue();
+		Communicate.sendBlue(BLUELEDSTATUS);
 	 }
 }
