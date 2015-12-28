@@ -10,32 +10,18 @@ public class CallKnob : MonoBehaviour {
 	public static GameObject Ring0,Ring1,Ring2,Ring3,Ring4,Ring5,Ring6,Ring7,Ring8,Ring9,Ring10,Ring11,Ring12,Ring13,Ring14,Ring15;
 	public static GameObject[] RINGARRAY; 
 	public static float angle;
-	bool RING0_STATUS=false;
-	bool RING1_STATUS=false;
-	bool RING2_STATUS=false;
-	bool RING3_STATUS=false;
-	bool RING4_STATUS=false;
-	bool RING5_STATUS=false;
-	bool RING6_STATUS=false;
-	bool RING7_STATUS=false;
-	bool RING8_STATUS=false;
-	bool RING9_STATUS=false;
-	bool RING10_STATUS=false;
-	bool RING11_STATUS=false;
-	bool RING12_STATUS=false;
-	bool RING13_STATUS=false;
-	bool RING14_STATUS=false;
-	bool RING15_STATUS=false;
+	bool RING0_STATUS=false;bool RING1_STATUS=false;bool RING2_STATUS=false;bool RING3_STATUS=false;
+	bool RING4_STATUS=false;bool RING5_STATUS=false;bool RING6_STATUS=false;bool RING7_STATUS=false;
+	bool RING8_STATUS=false;bool RING9_STATUS=false;bool RING10_STATUS=false;bool RING11_STATUS=false;
+	bool RING12_STATUS=false;bool RING13_STATUS=false;bool RING14_STATUS=false;bool RING15_STATUS=false;
 	bool[] RING_STATUSARRAY;
-
-
-
+	public static int ENCODERLEDSTATUS=0;
 	// Use this for initialization
 	void Start () {
 		
 		 //NAME ALL THE CHILDREN (LEDS IN RING) SO THEY CAN BE REFERENCED (I USED TAGS IN UNITY)
 		INITIATECHILDREN(); 
-		angle = gameObject.transform.eulerAngles.z;
+		angle = gameObject.transform.eulerAngles.z; //agle of the knob
 		RINGARRAY = new GameObject[] {Ring0,Ring1,Ring2,Ring3,Ring4,Ring5,Ring6,Ring7,Ring8,Ring9,Ring10,Ring11,Ring12,Ring13,Ring14,Ring15};
 	}//end start
 	
@@ -47,6 +33,7 @@ public class CallKnob : MonoBehaviour {
 			if((((gameObject.transform.eulerAngles.z)<=(22.5*(i+1)))&&(gameObject.transform.eulerAngles.z)>=(i*22.5))){
 				RINGARRAY[i].GetComponent<Renderer>().material.color = Color.green;
 				//Debug.Log ("rotation.z"+gameObject.transform.rotation.z);
+				ENCODERLEDSTATUS=i;
 			}
 			else{RINGARRAY [i].GetComponent<Renderer> ().material.color = Color.white;}
 		}

@@ -6,6 +6,18 @@ using System.Text;
 
 public class Communicate : MonoBehaviour {
 
+	//public static int ENCODERLEDSTATUS=CallKnob.ENCODERLEDSTATUS;
+	//public static bool REDLEDSTATUS=CallRed.REDLEDSTATUS;
+	//public static bool BLUELEDSTATUS=CallBlue.BLUELEDSTATUS;
+	//public static bool GREENLEDSTATUS=CallGreen.GREENLEDSTATUS;
+	//public static bool YELLOWLEDSTATUS=CallYellow.YELLOWLEDSTATUS;
+	//public static string YELLOWSTRING;
+	//public static string GREENSTRING;
+	//public static string BLUESTRING;
+	//public static string REDSTRING;
+
+
+	//Component KNOB_AND_RING_SCRIPT = KNOB_AND_RING.GetComponent<CallKnob>();
 	public static string STRINGFROMBOX;
 	public static SerialPort sp = new SerialPort ("COM3", 115200, Parity.None, 8, StopBits.One);
 	private string tString = string.Empty;
@@ -51,7 +63,6 @@ public class Communicate : MonoBehaviour {
 
 	public static void sendGreen(){
 		sp.Write("g");
-		//sp.Write("\n");
 	}
 
 	public static void sendRed(){
@@ -62,7 +73,9 @@ public class Communicate : MonoBehaviour {
 		sp.Write("b");
 	}
 	public static void sendKnob(){
-	
+		sp.Write ("e");
+		sp.Write("");
+		//sp.Write(ENCODERLEDSTATUS.ToString());;
 	}
 
 
@@ -78,7 +91,7 @@ public class Communicate : MonoBehaviour {
 		sp.Read(buf, 0, buf.Length);
 		foreach (Byte b in buf)
 		{
-			Debug.Log(b.ToString());
+			//Debug.Log(b.ToString());
 		}
 	
 	}//end of data received handler 
