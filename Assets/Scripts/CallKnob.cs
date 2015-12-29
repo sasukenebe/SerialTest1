@@ -6,11 +6,18 @@ using System.Collections;
 
 
 public class CallKnob : MonoBehaviour {
+
+	public static Vector3 NEWZVECTOR;
+	public static Vector3 PREVIOUSZVECTOR;
+
 	int PREVIOUS_ENCODERLEDSTATUS=0;
 	public static GameObject Ring0,Ring1,Ring2,Ring3,Ring4,Ring5,Ring6,Ring7,Ring8,Ring9,Ring10,Ring11,Ring12,Ring13,Ring14,Ring15;
 	public static GameObject[] RINGARRAY; 
 	public static float angle;
+	public static float PREVIOUSANGLE;
+	public static float ANGLETHRESHOLD=25.0F;
 	public static int ENCODERLEDSTATUS=0;
+
 	// Use this for initialization
 void Start () {
 		 //NAME ALL THE CHILDREN (LEDS IN RING) SO THEY CAN BE REFERENCED (I USED TAGS IN UNITY)
@@ -18,25 +25,39 @@ void Start () {
 		//NAME ALL THE CHILDREN (LEDS IN RING) SO THEY CAN BE REFERENCED (I USED TAGS IN UNITY)
 		RINGARRAY = new GameObject[] {Ring0,Ring1,Ring2,Ring3,Ring4,Ring5,Ring6,Ring7,Ring8,Ring9,Ring10,Ring11,Ring12,Ring13,Ring14,Ring15};
 
-		angle = gameObject.transform.eulerAngles.z; //agle of the knob
+		NEWZVECTOR = gameObject.transform.up;
+		//angle = gameObject.transform.eulerAngles.z; //agle of the knob
+		PREVIOUSZVECTOR=NEWZVECTOR;
+
+		PREVIOUSANGLE=angle;
 	}//end start
 	
 	// Update is called once per frame
 void Update () {
+		angle = gameObject.transform.eulerAngles.z;
+		NEWZVECTOR = gameObject.transform.up;
 
-		//the following breaks up the circle into 16 pieces of pie. lights up corresponding led by coloring it
-		for (int i = 0; i <= 15; i++) {
-			if((((gameObject.transform.eulerAngles.z)<=(22.5*(i+1)))&&(gameObject.transform.eulerAngles.z)>=(i*22.5))){
-				ENCODERLEDSTATUS=i;
-				LIGHTRINGLED(ENCODERLEDSTATUS);
-				//Debug.Log ("rotaLtion.z"+gameObject.transform.rotation.z);
-				if (PREVIOUS_ENCODERLEDSTATUS != ENCODERLEDSTATUS) {
-					PREVIOUS_ENCODERLEDSTATUS = ENCODERLEDSTATUS;
-					Communicate.sendKnob(ENCODERLEDSTATUS);
-				}
+
+		if (Mathf.Abs (angle - PREVIOUSANGLE) > ANGLETHRESHOLD) {
+			if (Mathf.Sign(Vector3.Cross(PREVIOUSZVECTOR, NEWZVECTOR).z ) > 0) {
+				//GOING CW, RINGLED++
+				INCREMENT_RINGLED();
+			} else {
+				DECREMENT_RINGLED();
 			}
-			else{RINGARRAY [i].GetComponent<Renderer> ().material.color = Color.white;}
+		
+			//print("previous"+PREVIOUSZVECTOR+"newvector"+NEWZVECTOR);
+			PREVIOUSZVECTOR = NEWZVECTOR;
+			PREVIOUSANGLE = angle;
+			LIGHTRINGLED(ENCODERLEDSTATUS);
+			Communicate.sendKnob(ENCODERLEDSTATUS);
+
+
 		}
+
+
+
+
 }//end update
 
 
@@ -51,15 +72,39 @@ void Update () {
 
 	public static void LIGHTRINGLED(int CURRENTRINGLED){
 		RINGARRAY[CURRENTRINGLED].GetComponent<Renderer>().material.color = Color.green;
-		//for (j = 0; jvalue <= 15; jvalue++) {							//SET ALL ELSE TO 0??
-		//	if (j != CURRENTRINGLED) {
-		//		RINGARRAY [j].GetComponent<Renderer> ().material.color = Color.white;
-		//	}
-		//}
-		print("LIGHTRINGLED FUNCTION IS BEING CALLED");
+		for (int j = 0; j <= 15; j++) {							//SET ALL ELSE TO 0??
+		if (j != CURRENTRINGLED) {
+				RINGARRAY [j].GetComponent<Renderer> ().material.color = Color.white;
+			}
+		}
+		ENCODERLEDSTATUS=CURRENTRINGLED; //IF GETTING A VALUE FROM THE REAL BOX, MATCH THE UNITY VALUE WITH THE PASSED VALUE
+	}
+
+	void INCREMENT_RINGLED() {
+		if(ENCODERLEDSTATUS==15)
+		{ENCODERLEDSTATUS=0;}
+		else {ENCODERLEDSTATUS++;}
+		
+	}
+
+	void DECREMENT_RINGLED() {
+		if(ENCODERLEDSTATUS==0)
+		{ENCODERLEDSTATUS=15;}
+		else {ENCODERLEDSTATUS--;}
 	}
 
 
 
-
 }//end callknob
+
+
+
+
+//get objects position gameobject.transform.position; returns vector 3
+//transform.up is vector green
+///right is red axis
+/// //forward is blue axis
+
+
+//UNITY IS LEFT HANDED, CROSS(OLDVECTOR,NEWVECTOR) = -() --> CCW (RINGLED--)
+					  //CROSS(OLDVECTOR,NEWVECTOR) = +() --> CW (RINGLED++)

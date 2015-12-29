@@ -3,12 +3,13 @@ using System.Collections;
 
 public class RotateKnob : MonoBehaviour {
 
-	int rotationspeed=5;
-	int friction=5;
+	int rotationspeed=15;
+	//int friction=5;
 	int lerpSpeed=5;
 	private float xDeg;   //used for reading mouse to rotate knob
 	private float yDeg;
-
+	public static Vector3 euler;
+	public static Vector3 velocity;
 	private Quaternion fromRotation;
 	private Quaternion toRotation;
 	bool KNOBMOUSEDOWN=false;
@@ -23,12 +24,25 @@ public class RotateKnob : MonoBehaviour {
 	/// </summary>
 	void Update () {
 		if (KNOBMOUSEDOWN){
-			xDeg -= Input.GetAxis ("Mouse X") * rotationspeed * friction;
-			yDeg += Input.GetAxis ("Mouse Y") * rotationspeed * friction;
-			fromRotation = transform.rotation;
-			toRotation = Quaternion.Euler (0, 180, xDeg);   // our cylinder has an initial rotation of 90 on x
+
+			euler.z -= Input.GetAxis ("Mouse X") * rotationspeed;
+			//euler.y += Input.GetAxis ("Mouse Y") * rotationspeed;
+			gameObject.transform.rotation = Quaternion.Euler(euler);
+			GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+
+			//xDeg -= Input.GetAxis ("Mouse X") * rotationspeed;
+			//yDeg += Input.GetAxis ("Mouse Y") * rotationspeed;
+
+
+
+			//GetComponent<Rigidbody>().transform.rotation = Quaternion.Euler(euler);
+			//GetComponent<Rigidbody>().velocity = new Vector3(Input.GetAxis ("Horizontal") * 1,0,Input.GetAxis ("Vertical"));
+
+			//fromRotation = transform.rotation;
+			//toRotation = Quaternion.Euler (0, 180, xDeg);   // our cylinder has an initial rotation of 90 on x
 			///these zeros will need to be updated to the relative angle of the box, if the box is moved in the virtual environment.
-			transform.rotation = Quaternion.Lerp (fromRotation, toRotation, Time.deltaTime * lerpSpeed);
+			//transform.rotation = Quaternion.Lerp (fromRotation, toRotation, Time.deltaTime * lerpSpeed);
+
 
 		}
 
