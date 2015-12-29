@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class RotateKnob : MonoBehaviour {
-	
+
 	int rotationspeed=5;
 	int friction=5;
 	int lerpSpeed=5;
@@ -22,8 +22,6 @@ public class RotateKnob : MonoBehaviour {
 	/// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// </summary>
 	void Update () {
-
-
 		if (KNOBMOUSEDOWN){
 			xDeg -= Input.GetAxis ("Mouse X") * rotationspeed * friction;
 			yDeg += Input.GetAxis ("Mouse Y") * rotationspeed * friction;
@@ -31,6 +29,7 @@ public class RotateKnob : MonoBehaviour {
 			toRotation = Quaternion.Euler (0, 180, xDeg);   // our cylinder has an initial rotation of 90 on x
 			///these zeros will need to be updated to the relative angle of the box, if the box is moved in the virtual environment.
 			transform.rotation = Quaternion.Lerp (fromRotation, toRotation, Time.deltaTime * lerpSpeed);
+
 		}
 
 }// end of update

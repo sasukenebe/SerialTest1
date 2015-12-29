@@ -18,13 +18,14 @@ public class Communicate : MonoBehaviour {
 		sp.DtrEnable = true; //if you do not do this, the event handler method of serial receipt will not work
 		sp.ReadTimeout=6;
 		sp.WriteTimeout=6;
-		if (!sp.IsOpen) 
-		{
+		if (!sp.IsOpen) {
 			sp.Open ();
 			Debug.Log ("A serial port has been opened");
+			sp.DiscardInBuffer ();
+			sp.DiscardOutBuffer ();
+		} else if (sp.IsOpen) {
 			sp.DiscardInBuffer();
 			sp.DiscardOutBuffer();
-
 		}
 
 	}//end start
@@ -77,6 +78,7 @@ public class Communicate : MonoBehaviour {
 		
 		if (REDLEDSTATUS==true) {
 			sp.Write ("r1");
+			
 			Debug.Log ("red STATUS 1");
 		} else {
 			if(REDLEDSTATUS==false)
@@ -95,13 +97,20 @@ public class Communicate : MonoBehaviour {
 			Debug.Log ("blue STATUS 0");
 		}
 	}
-	public static void sendKnob(){
-		sp.Write ("e");
-		sp.Write("");
-		//sp.Write(ENCODERLEDSTATUS.ToString());;
+	public static void sendKnob(int ENCODERLEDSTATUS){
+		Debug.Log ("e"+ENCODERLEDSTATUS.ToString());
+		//sp.Write ("e100x4");
+		sp.Write("e"+ENCODERLEDSTATUS.ToString()+'X');;
 	}
 
 
+	public static void sendBlueTEST(bool BLUELEDSTATUS){
+		sp.Write ("t");
+	}
+
+	public static void sendRedTEST(bool BLUELEDSTATUS){
+		sp.Write ("k13X");
+	}
 
 
 

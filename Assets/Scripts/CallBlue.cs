@@ -30,5 +30,6 @@ public class CallBlue : MonoBehaviour {
 			BLUELIGHT.enabled = false;}
 
 		Communicate.sendBlue(BLUELEDSTATUS);
+		//Communicate.sendBlueTEST(BLUELEDSTATUS);
 	 }
 }

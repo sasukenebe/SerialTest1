@@ -30,6 +30,7 @@ public class CallRed : MonoBehaviour {
 			REDLIGHT.enabled = false;}
 
 		Communicate.sendRed(REDLEDSTATUS);
+		//Communicate.sendRedTEST(REDLEDSTATUS);
 	 }
 
 

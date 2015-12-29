@@ -6,7 +6,7 @@ using System.Collections;
 
 
 public class CallKnob : MonoBehaviour {
-
+	int PREVIOUS_ENCODERLEDSTATUS=0;
 	public static GameObject Ring0,Ring1,Ring2,Ring3,Ring4,Ring5,Ring6,Ring7,Ring8,Ring9,Ring10,Ring11,Ring12,Ring13,Ring14,Ring15;
 	public static GameObject[] RINGARRAY; 
 	public static float angle;
@@ -18,7 +18,6 @@ public class CallKnob : MonoBehaviour {
 	public static int ENCODERLEDSTATUS=0;
 	// Use this for initialization
 	void Start () {
-		
 		 //NAME ALL THE CHILDREN (LEDS IN RING) SO THEY CAN BE REFERENCED (I USED TAGS IN UNITY)
 		INITIATECHILDREN(); 
 		angle = gameObject.transform.eulerAngles.z; //agle of the knob
@@ -34,10 +33,13 @@ public class CallKnob : MonoBehaviour {
 				RINGARRAY[i].GetComponent<Renderer>().material.color = Color.green;
 				//Debug.Log ("rotation.z"+gameObject.transform.rotation.z);
 				ENCODERLEDSTATUS=i;
+				if (PREVIOUS_ENCODERLEDSTATUS != ENCODERLEDSTATUS) {
+					PREVIOUS_ENCODERLEDSTATUS = ENCODERLEDSTATUS;
+					Communicate.sendKnob(ENCODERLEDSTATUS);
+				}
 			}
 			else{RINGARRAY [i].GetComponent<Renderer> ().material.color = Color.white;}
 		}
-			
 	}//end update
 
 	void INITIATECHILDREN(){
