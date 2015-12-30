@@ -3,9 +3,9 @@ using System.Collections;
 
 public class RotateKnob : MonoBehaviour {
 
-	int rotationspeed=15;
+	int rotationspeed=4;
 	//int friction=5;
-	int lerpSpeed=5;
+	int lerpSpeed=1;
 	private float xDeg;   //used for reading mouse to rotate knob
 	private float yDeg;
 	public static Vector3 euler;
